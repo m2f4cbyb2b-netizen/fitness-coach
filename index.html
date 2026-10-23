@@ -6,14 +6,23 @@
 @keyframes moveExercise{0%{transform:translateY(-15px) rotate(-5deg)}100%{transform:translateY(14px) rotate(7deg)}}
 .visual .ground{stroke:#667b90;stroke-width:2}
 .voiceopts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.voiceopts label{font-size:13px;color:#dbe7f1}.voiceopts input{width:auto;vertical-align:middle}
-</style></head><body><main><small>TRAINING · FORTSCHRITT · COACHING</small><h1>💪 Mein Fitness Coach 4.5</h1><p>Krafttraining, Daily 15 und smarte Steigerungsempfehlungen.</p><div class="tabs"><button id="t0" onclick="show('train')">Training</button><button id="t3" onclick="show('daily')">Daily 15</button><button id="t1" onclick="show('history')">Verlauf</button><button id="t4" onclick="show('steps')">Schritte</button><button id="t2" onclick="show('settings')">Daten & Cloud</button></div><section id="train"><div class="card"><div class="head"><b>Heutiger Trainingsplan</b><select id="day" onchange="render()"><option>GK 1</option><option>GK 2</option><option>GK 3</option></select></div><p class="muted">Trage Gewicht (kg), Wiederholungen, Kraftreserve (RIR: 0 = keine, 2 = noch zwei Wiederholungen möglich, 3+ = mindestens drei) und absolvierte Sätze ein. Bei Körpergewichtsübungen kann das Gewicht 0 bleiben. Die Empfehlungen sind Richtwerte; verwende nur tatsächlich verfügbare Gewichtsstufen.</p></div><div class="card"><label for="bodyWeight">Dein Körpergewicht (kg) für Kalorienschätzungen</label><input id="bodyWeight" type="number" min="30" max="300" step="0.5" value="96" onchange="setBodyWeight(this.value)"><p class="muted">Startwert 96 kg – bitte anpassen. Schätzungen inklusive angenommener Satzpausen, keine Messwerte.</p></div><div id="exercises"></div><button class="primary" style="width:100%;margin-top:12px" onclick="saveWorkout()">Training speichern</button></section><section id="daily" class="hidden">
+</style></head><body><main><small>TRAINING · FORTSCHRITT · COACHING</small><h1>💪 Mein Fitness Coach 4.7</h1><p>Krafttraining, Daily 15 und smarte Steigerungsempfehlungen.</p><div class="tabs"><button id="t0" onclick="show('train')">Training</button><button id="t3" onclick="show('daily')">Daily 15</button><button id="t1" onclick="show('history')">Verlauf</button><button id="t4" onclick="show('steps')">Schritte</button><button id="t5" onclick="show('week')">Wochenübersicht</button><button id="t6" onclick="show('bp')">Blutdruck</button><button id="t2" onclick="show('settings')">Daten & Cloud</button></div><section id="train"><div class="card"><div class="head"><b>Heutiger Trainingsplan</b><select id="day" onchange="render()"><option>GK 1</option><option>GK 2</option><option>GK 3</option></select></div><p class="muted">Trage Gewicht (kg), Wiederholungen, Kraftreserve (RIR: 0 = keine, 2 = noch zwei Wiederholungen möglich, 3+ = mindestens drei) und absolvierte Sätze ein. Bei Körpergewichtsübungen kann das Gewicht 0 bleiben. Die Empfehlungen sind Richtwerte; verwende nur tatsächlich verfügbare Gewichtsstufen.</p></div><div class="card"><label for="bodyWeight">Dein Körpergewicht (kg) für Kalorienschätzungen</label><input id="bodyWeight" type="number" min="30" max="300" step="0.5" value="96" onchange="setBodyWeight(this.value)"><p class="muted">Startwert 96 kg – bitte anpassen. Schätzungen inklusive angenommener Satzpausen, keine Messwerte.</p></div><div id="exercises"></div><button class="primary" style="width:100%;margin-top:12px" onclick="saveWorkout()">Training speichern</button></section><section id="daily" class="hidden">
 <div class="card"><h2>⚡ Daily 15</h2><p>15 Minuten zusätzlich zu 2–3 Studiotagen pro Woche. Kraft, Cardio, Mobilität und Balance – angepasst an deine Tagesform.</p>
 <label for="dailyMode">Heutiger Trainingstyp</label><select id="dailyMode" style="width:100%;margin:8px 0" onchange="dailyRender()"><option value="free">Ohne Fitnessstudio – Kraft & Cardio</option><option value="gym">Fitnessstudio – leichte Ergänzung</option><option value="rest">Regeneration – Mobilität & Balance</option></select>
 <label for="dailyLevel">Schwierigkeit</label><select id="dailyLevel" style="width:100%;margin:8px 0" onchange="dailyRender()"><option value="easy">Leicht</option><option value="normal" selected>Normal</option><option value="hard">Fortgeschritten</option></select>
 <p class="muted">Jede Übung dauert eine Minute. Der Timer signalisiert den Wechsel. Trainiere kontrolliert, nicht bis zur Erschöpfung. Bei Schmerzen abbrechen.</p></div>
 <div class="card"><div class="head"><b id="dailyTitle">Dein Programm</b><span id="dailyProgress" class="muted">0 / 15</span></div><div class="stat" id="dailyClock">15:00</div><div id="dailyVisual" class="visual" role="img" aria-label="Schematische animierte Übungsdarstellung"></div><h2 id="dailyExercise">Bereit?</h2><p id="dailyHint"></p><div class="voiceopts"><label><input type="checkbox" id="voiceEnabled" checked> Deutsche Ansagen</label><label><input type="checkbox" id="animationEnabled" checked onchange="dailyVisualUpdate()"> Animationen</label><label><input type="checkbox" id="voiceTechnique" checked> Technikhinweise</label><label><input type="checkbox" id="voiceCountdown" checked> Countdown</label></div><button onclick="dailySpeakTest()">🔊 Stimme testen</button><p class="muted">Die schematischen Übungsbilder werden in der App animiert. Für deutsche Ansagen verwendet die App die iPhone-Sprachausgabe. Der Ton kann je nach iOS-Einstellung und Stummschaltung variieren.</p><div class="row"><button class="primary" id="dailyStart" onclick="dailyToggle()">Start</button><button onclick="dailyNext()">Überspringen</button><button onclick="dailyReset()">Zurücksetzen</button></div></div>
 <div class="card"><h3>Kalorienverbrauch Daily 15</h3><div id="dailyCalories"></div><p class="muted">Schätzung für 15 Minuten einschließlich Pausen. Die Intensität und tatsächliche Bewegung können abweichen.</p></div><div class="card"><h3>Übungsübersicht</h3><div id="dailyList"></div></div>
-<div class="card"><h3>Deine Daily-15-Statistik</h3><div id="dailyStats"></div><button onclick="dailyExport()">Daily-15-Backup</button><p class="muted">Die Einheiten werden lokal und bei aktiver Cloud-Anmeldung in Firebase gespeichert. Vor Updates Backups erstellen.</p></div></section><section id="steps" class="hidden"><div class="card"><h2>🚶 Schritte & Aktivität</h2><p>Schrittzahlen aus Apple Health manuell übernehmen. Gehen und Joggen getrennt erfassen; Kalorien sind Schätzwerte.</p><label>Datum</label><input id="stepDate" type="date"><div class="row"><div><label>Schritte Gehen</label><input id="stepWalk" type="number" min="0" step="1" placeholder="z. B. 6500"></div><div><label>Schritte Joggen</label><input id="stepRun" type="number" min="0" step="1" placeholder="z. B. 2000"></div></div><p class="muted">Bitte die Schritte den beiden Aktivitäten zuordnen, ohne Schritte doppelt zu zählen. Apple Health liefert nicht immer eine getrennte Schrittzahl für Gehen/Joggen; bei Bedarf anhand der Trainingsaufzeichnung schätzen.</p><div class="row"><button class="primary" onclick="saveSteps()">Tag speichern</button><button onclick="exportSteps()">Schritte-Backup</button></div><div id="stepPreview"></div></div><div class="card"><h3>Schrittziel</h3><label>Tagesziel (Schritte)</label><input id="stepGoal" type="number" min="1000" max="100000" step="500" onchange="setStepGoal(this.value)"><p class="muted">Schätzung aus Körpergewicht und angenommener Schrittlänge. Gehen ca. 0,70 m/Schritt, Joggen ca. 1,00 m/Schritt. Individuelle Abweichungen sind möglich.</p></div><div class="card"><h3>Aktivitätsstatistik</h3><div id="stepStats"></div></div><div class="card"><h3>Letzte Einträge</h3><div id="stepEntries"></div></div></section><section id="history" class="hidden"><div id="summary"></div><div class="card"><h3>📈 Dein Fortschrittsbericht</h3><div id="progressReport"></div></div><div class="card"><h3>Kraftentwicklung</h3><label for="chartExercise" class="muted">Übung auswählen</label><select id="chartExercise" style="width:100%;margin:10px 0" onchange="renderChart()"></select><div id="chart"></div><p class="muted">Angezeigt wird das höchste dokumentierte Trainingsgewicht je Einheit. Bei gleichem Gewicht zeigen mehr Wiederholungen ebenfalls einen Fortschritt.</p></div><div id="entries"></div></section><section id="settings" class="hidden"><div class="card"><h3>☁️ Cloud-Synchronisierung (Firebase)</h3><p class="muted">Optional. Ohne Einrichtung bleiben alle Daten lokal wie bisher. Für die Cloud benötigst du ein eigenes Firebase-Projekt mit E-Mail/Passwort-Anmeldung und Firestore.</p>
+<div class="card"><h3>Deine Daily-15-Statistik</h3><div id="dailyStats"></div><button onclick="dailyExport()">Daily-15-Backup</button><p class="muted">Die Einheiten werden lokal und bei aktiver Cloud-Anmeldung in Firebase gespeichert. Vor Updates Backups erstellen.</p></div></section><section id="steps" class="hidden"><div class="card"><h2>🚶 Schritte & Aktivität</h2><p>Schrittzahlen aus Apple Health manuell übernehmen. Gehen und Joggen getrennt erfassen; Kalorien sind Schätzwerte.</p><label>Datum</label><input id="stepDate" type="date"><div class="row"><div><label>Schritte Gehen</label><input id="stepWalk" type="number" min="0" step="1" placeholder="z. B. 6500"></div><div><label>Schritte Joggen</label><input id="stepRun" type="number" min="0" step="1" placeholder="z. B. 2000"></div></div><p class="muted">Bitte die Schritte den beiden Aktivitäten zuordnen, ohne Schritte doppelt zu zählen. Apple Health liefert nicht immer eine getrennte Schrittzahl für Gehen/Joggen; bei Bedarf anhand der Trainingsaufzeichnung schätzen.</p><div class="row"><button class="primary" onclick="saveSteps()">Tag speichern</button><button onclick="exportSteps()">Schritte-Backup</button></div><div id="stepPreview"></div></div><div class="card"><h3>Schrittziel</h3><label>Tagesziel (Schritte)</label><input id="stepGoal" type="number" min="1000" max="100000" step="500" onchange="setStepGoal(this.value)"><p class="muted">Schätzung aus Körpergewicht und angenommener Schrittlänge. Gehen ca. 0,70 m/Schritt, Joggen ca. 1,00 m/Schritt. Individuelle Abweichungen sind möglich.</p></div><div class="card"><h3>Aktivitätsstatistik</h3><div id="stepStats"></div></div><div class="card"><h3>Letzte Einträge</h3><div id="stepEntries"></div></div></section><section id="week" class="hidden"><div class="card"><h2>📊 Deine Fitnesswoche</h2><p class="muted">Krafttraining, Daily 15, Gehen und Joggen auf einen Blick.</p><div class="row"><button onclick="changeWeek(-1)">← Vorwoche</button><button onclick="changeWeek(0)">Aktuelle Woche</button><button onclick="changeWeek(1)">Folgewoche →</button></div><h3 id="weekRange"></h3><div id="weekSummary"></div></div><div class="card"><h3>Aktivität nach Wochentag</h3><div id="weekDays"></div></div><div class="card"><h3>Trainingsfortschritt & nächste Schritte</h3><div id="weekProgress"></div></div><div class="card"><h3>Kalorien richtig interpretieren</h3><p class="muted">Krafttraining und Daily 15 werden aus Modellannahmen geschätzt; Schritte aus manuellen Angaben. Diese Werte sind nicht direkt vergleichbar und können sich zeitlich überschneiden. Deshalb zeigt die Wochenübersicht getrennte Kalorienwerte und keine möglicherweise doppelt gezählte Gesamtsumme. Es handelt sich nicht um gemessene Kalorien.</p></div></section><section id="bp" class="hidden">
+<div class="card"><h2>❤️ Blutdrucktagebuch</h2><p class="muted">Ein Eintrag pro Tag, drei Messungen. Für den Tagesmittelwert werden ausschließlich Messung 2 und 3 verwendet.</p>
+<label for="bpDate">Datum</label><input id="bpDate" type="date">
+<div id="bpInputs"></div>
+<div class="card"><b>Tagesmittelwert (Messung 2 + 3)</b><div class="stat" id="bpPreview">– / – mmHg</div><small>Der erste Messwert wird dokumentiert, aber nicht mitgerechnet.</small></div>
+<div class="row"><button class="primary" onclick="saveBP()">Tag speichern</button><button onclick="exportBP()">Blutdruck-Backup</button></div>
+</div>
+<div class="card"><h3>Durchschnittswerte</h3><div id="bpStats"></div><p class="muted">Mittelwert aus den Tagesmittelwerten aller erfassten Tage im jeweiligen Zeitraum. Tage ohne Eintrag werden nicht berücksichtigt. Die Werte sind zur Dokumentation gedacht, nicht zur Diagnose.</p></div>
+<div class="card"><h3>Verlauf</h3><div id="bpEntries"></div></div>
+</section><section id="history" class="hidden"><div id="summary"></div><div class="card"><h3>📈 Dein Fortschrittsbericht</h3><div id="progressReport"></div></div><div class="card"><h3>Kraftentwicklung</h3><label for="chartExercise" class="muted">Übung auswählen</label><select id="chartExercise" style="width:100%;margin:10px 0" onchange="renderChart()"></select><div id="chart"></div><p class="muted">Angezeigt wird das höchste dokumentierte Trainingsgewicht je Einheit. Bei gleichem Gewicht zeigen mehr Wiederholungen ebenfalls einen Fortschritt.</p></div><div id="entries"></div></section><section id="settings" class="hidden"><div class="card"><h3>☁️ Cloud-Synchronisierung (Firebase)</h3><p class="muted">Optional. Ohne Einrichtung bleiben alle Daten lokal wie bisher. Für die Cloud benötigst du ein eigenes Firebase-Projekt mit E-Mail/Passwort-Anmeldung und Firestore.</p>
 <div id="cloudConfigArea"><label class="muted">Firebase-Web-Konfiguration (JSON aus der Firebase-Konsole)</label><textarea id="firebaseConfig" rows="7" style="width:100%;box-sizing:border-box;background:#0e1825;color:white;border:1px solid #45566a;border-radius:10px;padding:10px" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'></textarea><button onclick="cloudConfigure()">Cloud konfigurieren</button></div>
 <div id="cloudAccount" class="hidden"><p id="cloudStatus" class="muted">Nicht angemeldet</p><input id="cloudEmail" type="email" autocomplete="email" placeholder="E-Mail-Adresse" style="margin-bottom:8px"><input id="cloudPassword" type="password" autocomplete="current-password" placeholder="Passwort (mindestens 6 Zeichen)"><div class="row" style="margin-top:10px"><button onclick="cloudLogin(false)">Anmelden</button><button onclick="cloudLogin(true)">Konto erstellen</button><button onclick="cloudLogout()">Abmelden</button></div><hr><button onclick="cloudImportLocal()">Lokale Daten einmalig in Cloud übernehmen</button><p class="muted">Erst nach Anmeldung und ausdrücklicher Bestätigung werden bestehende lokale Trainingsdaten hochgeladen. Erstelle vorher ein Backup. Cloud-Daten werden beim Anmelden geladen; ohne Cloud bleibt alles lokal.</p></div>
 <p id="cloudMessage" class="muted"></p></div><div class="card"><h3>Datensicherung</h3><p>Deine Daten werden lokal gespeichert und bei aktiver Anmeldung mit Firebase synchronisiert. Sichere deine Daten regelmäßig zusätzlich per Backup.</p><button onclick="exportData()">Backup herunterladen</button><p class="muted">Das Krafttraining-Backup enthält nur Krafttrainingsdaten. Für Schritte gibt es im Reiter „Schritte“ einen eigenen Export.</p><p>Backup wiederherstellen:</p><input type="file" accept="application/json" onchange="importData(event)"></div><div class="card"><h3>Auf dem Smartphone</h3><p>Für ein dauerhaftes Startbildschirm-Symbol diese Datei als HTTPS-Website veröffentlichen und anschließend im Smartphone-Browser „Zum Home-Bildschirm“ wählen. Eine lokal geöffnete HTML-Datei lässt sich nicht auf jedem Smartphone zuverlässig als App installieren.</p><p><b>Wichtig:</b> Bei aktiver Firebase-Anmeldung werden Trainingseinträge zwischen Geräten synchronisiert. Erstelle zusätzlich regelmäßig ein Backup.</p></div><div class="card"><h3>So coacht dich die App</h3><p>Wenn du alle geplanten Sätze am oberen Ende des Wiederholungsbereichs schaffst und in jedem Satz mindestens 2 Wiederholungen Reserve (RIR) dokumentierst, empfiehlt sie ein konkretes Zielgewicht (kleine, gerundete Steigerung). Wenn du unter dem Mindestziel bleibst, empfiehlt sie, das Gewicht zu halten oder zu reduzieren. Das ist eine regelbasierte Orientierung, keine individuelle medizinische Betreuung.</p></div></section></main><script>
@@ -30,7 +39,7 @@ function exerciseKcal(e){const sets=completedSets(e);if(!sets.length)return 0;co
 function workoutKcal(h){return h.exercises.reduce((sum,e)=>sum+exerciseKcal(e),0)}
 function workoutVolume(h){return h.exercises.reduce((a,e)=>a+completedSets(e).reduce((b,s)=>b+Number(s.kg)*Number(s.reps),0),0)}
 function dailyKcal(mode,level){const mets={free:{easy:3.0,normal:4.0,hard:5.0},gym:{easy:2.2,normal:2.7,hard:3.2},rest:{easy:1.8,normal:2.1,hard:2.4}};return kcalMET(mets[mode]?.[level]||2.5,15)}
-let history=JSON.parse(localStorage.getItem('fitnessCoachHistory')||'[]');let current='train';const el=id=>document.getElementById(id);function show(s){current=s;['train','history','settings','daily','steps'].forEach((x,i)=>{el(x).classList.toggle('hidden',x!==s);el('t'+i).classList.toggle('active',x===s)});if(s==='history')renderHistory();if(s==='steps')renderSteps()};function previous(day,name){for(let i=history.length-1;i>=0;i--){let x=history[i];if(x.day===day){let e=x.exercises.find(y=>y.name===name);if(e)return e}}return null}
+let history=JSON.parse(localStorage.getItem('fitnessCoachHistory')||'[]');let current='train';const el=id=>document.getElementById(id);function show(s){current=s;['train','history','settings','daily','steps','week','bp'].forEach((x,i)=>{el(x).classList.toggle('hidden',x!==s);el('t'+i).classList.toggle('active',x===s)});if(s==='history')renderHistory();if(s==='steps')renderSteps();if(s==='week')renderWeek();if(s==='bp')renderBP()};function previous(day,name){for(let i=history.length-1;i>=0;i--){let x=history[i];if(x.day===day){let e=x.exercises.find(y=>y.name===name);if(e)return e}}return null}
 function oldSuggestion(prev,ex){if(!prev)return 'Erstes Training: Starte mit einem kontrollierbaren Gewicht und sauberer Technik.';let sets=prev.sets.filter(x=>x.done);if(sets.length<ex[1])return 'Noch nicht alle Sätze dokumentiert. Gewicht zunächst beibehalten.';let reps=sets.map(x=>Number(x.reps));let kg=sets.map(x=>Number(x.kg));if(reps.every(r=>r>=ex[3])){let w=Math.max(...kg);return `Ziel erreicht! Bei sauberer Technik und 1–2 Wiederholungen Reserve: nächstes Mal etwa ${w? (Math.round(w*1.025*2)/2).toLocaleString('de-DE')+'–'+(Math.round(w*1.05*2)/2).toLocaleString('de-DE')+' kg':'eine kleine Zusatzbelastung'} versuchen.`}if(reps.some(r=>r<ex[2]))return 'Unter dem Zielbereich: Gewicht beibehalten oder um etwa 5 % senken; auf Technik und Erholung achten.';return 'Im Zielbereich: Gewicht beibehalten und zunächst Wiederholungen steigern.'}
 function recommendation(prev,ex){
  if(!prev)return {msg:'Erstes Training: Wähle ein kontrollierbares Gewicht. Nach dem Speichern berechne ich dein nächstes Ziel.',target:null};
@@ -167,19 +176,105 @@ function exportSteps(){const blob=new Blob([JSON.stringify(stepLog,null,2)],{typ
 function renderSteps(){if(!el('stepDate'))return;el('stepGoal').value=stepGoal;if(!el('stepDate').value)el('stepDate').value=stepToday();const today=stepLog.find(x=>x.date===stepToday())||{walk:0,run:0};const now=new Date();const startWeek=new Date(now);startWeek.setDate(now.getDate()-((now.getDay()+6)%7));const weekStart=`${startWeek.getFullYear()}-${String(startWeek.getMonth()+1).padStart(2,'0')}-${String(startWeek.getDate()).padStart(2,'0')}`;const month=stepToday().slice(0,7);const sum=items=>({steps:items.reduce((a,x)=>a+x.walk+x.run,0),kcal:items.reduce((a,x)=>a+stepCalories(x.walk,x.run),0),days:items.length});const week=sum(stepLog.filter(x=>x.date>=weekStart&&x.date<=stepToday())),monthly=sum(stepLog.filter(x=>x.date.startsWith(month)));const total=today.walk+today.run;el('stepStats').innerHTML=`<div class="row"><div><small>Heute</small><div class="stat">${total.toLocaleString('de-DE')}</div><small>${Math.round(100*total/stepGoal)} % des Ziels · ca. ${stepCalories(today.walk,today.run)} kcal</small></div><div><small>Diese Woche</small><div class="stat">${week.steps.toLocaleString('de-DE')}</div><small>${week.days} erfasste Tage · ca. ${week.kcal} kcal</small></div></div><hr><p>Dieser Monat: <b>${monthly.steps.toLocaleString('de-DE')} Schritte</b> · ${monthly.days} erfasste Tage · ca. <b>${monthly.kcal} Aktivitäts-kcal</b></p><p class="muted">Nicht erfasste Tage zählen nicht als Null-Tage. Aktivitätskalorien sind grobe Schätzungen zusätzlich zum Ruheverbrauch; nicht automatisch mit anderen Trainingskalorien addieren, wenn Aktivitäten sich überschneiden.</p>`;el('stepEntries').innerHTML=stepLog.slice().reverse().slice(0,45).map(x=>`<div class="card"><div class="head"><b>${x.date}</b><div><button onclick="stepEdit('${x.date}')">Bearbeiten</button> <button onclick="deleteSteps('${x.date}')">Löschen</button></div></div><p>🚶 ${x.walk.toLocaleString('de-DE')} · 🏃 ${x.run.toLocaleString('de-DE')} · insgesamt ${(x.walk+x.run).toLocaleString('de-DE')} Schritte</p><small>🔥 ca. ${stepCalories(x.walk,x.run)} Aktivitäts-kcal</small></div>`).join('')||'<p>Noch keine Schritte erfasst.</p>'}
 el('stepDate').value=stepToday();['stepWalk','stepRun'].forEach(id=>el(id).addEventListener('input',stepPreview));stepPreview();
 
+// Wochenuebersicht: keine weiteren Cloud-Sammlungen; bestehende Logs werden gelesen.
+let weekOffset=0;
+const isoLocal=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const entryDay=x=>{if(!x||!x.date)return '';const d=new Date(x.date);return Number.isNaN(d.getTime())?'':isoLocal(d)};
+const numDE=n=>Math.round(n).toLocaleString('de-DE');
+function changeWeek(direction){weekOffset=direction===0?0:Math.min(0,Math.max(-104,weekOffset+direction));renderWeek()}
+function renderWeek(){
+ const root=el('weekSummary');if(!root)return;
+ const now=new Date(),monday=new Date(now.getFullYear(),now.getMonth(),now.getDate());monday.setDate(monday.getDate()-(monday.getDay()+6)%7+weekOffset*7);
+ const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
+ const a=isoLocal(monday),b=isoLocal(sunday);
+ el('weekRange').textContent=`${monday.toLocaleDateString('de-DE')} – ${sunday.toLocaleDateString('de-DE')}`;
+ const workouts=history.filter(x=>{const d=entryDay(x);return d>=a&&d<=b});
+ const dailies=dailyLog.filter(x=>{const d=entryDay(x);return d>=a&&d<=b});
+ const steps=stepLog.filter(x=>x.date>=a&&x.date<=b);
+ const walk=steps.reduce((v,x)=>v+(Number(x.walk)||0),0),run=steps.reduce((v,x)=>v+(Number(x.run)||0),0);
+ const wkKcal=workouts.reduce((v,x)=>v+workoutKcal(x),0),dKcal=dailies.reduce((v,x)=>v+Number(x.kcal??dailyKcal(x.mode,x.level)),0),stepKcal=steps.reduce((v,x)=>v+stepCalories(Number(x.walk)||0,Number(x.run)||0),0);
+ const vol=workouts.reduce((v,x)=>v+workoutVolume(x),0),sets=workouts.reduce((v,x)=>v+x.exercises.reduce((z,e)=>z+completedSets(e).length,0),0);
+ root.innerHTML=`<div class="row"><div><small>GK-Trainings</small><div class="stat">${workouts.length}</div><small>${sets} Sätze · ${numDE(vol)} kg Volumen</small></div><div><small>Daily 15</small><div class="stat">${dailies.length}</div><small>${dailies.length*15} Minuten</small></div></div><hr><div class="row"><div><small>Gehen</small><div class="stat">${numDE(walk)}</div><small>Schritte</small></div><div><small>Joggen</small><div class="stat">${numDE(run)}</div><small>Schritte</small></div></div><p><b>Gesamt: ${numDE(walk+run)} Schritte</b> · ${steps.length} erfasste Tage · Tagesziel ${numDE(stepGoal)}</p><hr><p>🔥 Krafttraining: ca. <b>${numDE(wkKcal)} kcal</b></p><p>🔥 Daily 15: ca. <b>${numDE(dKcal)} kcal</b></p><p>🔥 Schritte: ca. <b>${numDE(stepKcal)} Aktivitäts-kcal</b></p><p class="muted">Keine Addition wegen möglicher Überschneidungen. Fehlende Einträge bedeuten nicht automatisch, dass du inaktiv warst.</p>`;
+ const weekday=['Mo','Di','Mi','Do','Fr','Sa','So'];
+ el('weekDays').innerHTML=weekday.map((name,i)=>{const d=new Date(monday);d.setDate(d.getDate()+i);const key=isoLocal(d),st=steps.find(x=>x.date===key),w=workouts.filter(x=>entryDay(x)===key).length,dy=dailies.filter(x=>entryDay(x)===key).length,tot=st?(Number(st.walk)||0)+(Number(st.run)||0):0;const pct=Math.min(100,Math.round(tot/Math.max(stepGoal,1)*100));return `<div style="margin:12px 0"><div class="head"><b>${name} ${d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</b><small>${st?numDE(tot)+' Schritte':'Keine Schritte erfasst'}${w?' · '+w+' GK':''}${dy?' · '+dy+' Daily 15':''}</small></div><div style="background:#26394c;height:8px;border-radius:9px;overflow:hidden;margin-top:5px"><div style="width:${pct}%;height:100%;background:#54d8b6"></div></div></div>`}).join('');
+ const prevMon=new Date(monday);prevMon.setDate(prevMon.getDate()-7);const prevSun=new Date(monday);prevSun.setDate(prevSun.getDate()-1);
+ const pa=isoLocal(prevMon),pb=isoLocal(prevSun),prev=history.filter(x=>{const d=entryDay(x);return d>=pa&&d<=pb});
+ const prevVol=prev.reduce((v,x)=>v+workoutVolume(x),0);
+ const comparison=prev.length&&workouts.length?`<p>Trainingsvolumen zur Vorwoche: <b>${prevVol?((vol/prevVol-1)*100>=0?'+':'')+Math.round((vol/prevVol-1)*100)+' %':'nicht vergleichbar'}</b>. Unterschiedliche Pläne und Satzzahlen schränken den Vergleich ein.</p>`:'<p class="muted">Ein Wochenvergleich erscheint, sobald in beiden Wochen Krafttrainings vorliegen.</p>';
+ const latest=[...history].reverse().find(x=>entryDay(x)<=b);
+ const tips=[];
+ if(latest){for(const e of latest.exercises){if(!completedSets(e).length)continue;const def=Object.values(plans).flat().find(x=>x[0]===e.name);if(!def)continue;const r=recommendation(e,def);if(r&&r.msg){tips.push(`<p><b>${e.name}:</b> ${r.msg}</p>`)}if(tips.length>=3)break}}
+ el('weekProgress').innerHTML=comparison+(tips.length?'<h4>Empfehlungen aus dem letzten dokumentierten Krafttraining</h4>'+tips.join(''):'<p class="muted">Nach deinem ersten Krafttraining erscheinen hier konkrete Empfehlungen.</p>')+'<p class="muted">Empfehlungen basieren auf Wiederholungen, Gewichten und RIR; keine automatische Anpassung deiner Trainingspläne.</p>';
+}
+
+
+// Blutdrucktagebuch: drei Messungen pro Tag, Durchschnitt nur aus 2 und 3.
+let bpLog=JSON.parse(localStorage.getItem('fitnessCoachBP')||'[]');
+const bpLocalDate=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const bpAverage=e=>({sys:(Number(e.m[1].sys)+Number(e.m[2].sys))/2,dia:(Number(e.m[1].dia)+Number(e.m[2].dia))/2});
+const bpFormat=n=>n.toLocaleString('de-DE',{maximumFractionDigits:1,minimumFractionDigits:1});
+function bpUpdatePreview(){
+ const vals=[2,3].map(i=>({sys:Number(el('bps'+i).value),dia:Number(el('bpd'+i).value)}));
+ el('bpPreview').textContent=vals.every(v=>v.sys>0&&v.dia>0)?`${bpFormat((vals[0].sys+vals[1].sys)/2)} / ${bpFormat((vals[0].dia+vals[1].dia)/2)} mmHg`:'– / – mmHg';
+}
+function bpEdit(date){
+ const e=bpLog.find(x=>x.date===date);if(!e)return;
+ el('bpDate').value=date;
+ e.m.forEach((v,i)=>{el('bps'+(i+1)).value=v.sys;el('bpd'+(i+1)).value=v.dia});
+ bpUpdatePreview();el('bpDate').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function saveBP(){
+ const date=el('bpDate').value;
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date>bpLocalDate())return alert('Bitte ein gültiges Datum bis heute auswählen.');
+ const m=[1,2,3].map(i=>({sys:Number(el('bps'+i).value),dia:Number(el('bpd'+i).value)}));
+ if(m.some(v=>!Number.isInteger(v.sys)||!Number.isInteger(v.dia)||v.sys<50||v.sys>300||v.dia<30||v.dia>200||v.sys<=v.dia))
+ return alert('Bitte für alle drei Messungen plausible systolische und diastolische Werte in mmHg eingeben.');
+ const entry={id:date,date,m};
+ bpLog=bpLog.filter(x=>x.date!==date).concat(entry).sort((a,b)=>a.date.localeCompare(b.date));
+ localStorage.setItem('fitnessCoachBP',JSON.stringify(bpLog));cloudSaveEntry('bp',entry);renderBP();alert('Blutdruck für '+date+' gespeichert.');
+}
+function deleteBP(date){
+ if(!confirm('Blutdruckwerte vom '+date+' wirklich löschen?'))return;
+ bpLog=bpLog.filter(x=>x.date!==date);localStorage.setItem('fitnessCoachBP',JSON.stringify(bpLog));cloudDeleteEntry('bp',date);renderBP();
+}
+function exportBP(){
+ const blob=new Blob([JSON.stringify(bpLog,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='blutdruck-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function renderBP(){
+ if(!el('bpDate'))return;
+ if(!el('bpDate').value)el('bpDate').value=bpLocalDate();
+ const today=new Date(),date=bpLocalDate();
+ const monday=new Date(today);monday.setDate(today.getDate()-((today.getDay()+6)%7));
+ const mondayKey=`${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
+ const periods=[['Diese Woche',x=>x.date>=mondayKey&&x.date<=date],['Dieser Monat',x=>x.date.slice(0,7)===date.slice(0,7)],['Dieses Jahr',x=>x.date.slice(0,4)===date.slice(0,4)]];
+ el('bpStats').innerHTML=periods.map(([name,fn])=>{
+ const rows=bpLog.filter(fn),av=rows.map(bpAverage),sys=av.reduce((a,x)=>a+x.sys,0)/av.length,dia=av.reduce((a,x)=>a+x.dia,0)/av.length;
+ return `<div class="card"><b>${name}</b><div class="stat">${rows.length?bpFormat(sys)+' / '+bpFormat(dia):'– / –'} <small>mmHg</small></div><small>${rows.length} erfasste Tage</small></div>`;
+ }).join('');
+ el('bpEntries').innerHTML=bpLog.slice().reverse().map(e=>{
+ const a=bpAverage(e);
+ return `<div class="card"><div class="head"><b>${e.date}</b><div><button onclick="bpEdit('${e.date}')">Bearbeiten</button> <button onclick="deleteBP('${e.date}')">Löschen</button></div></div><p><b>Ø Messung 2 + 3: ${bpFormat(a.sys)} / ${bpFormat(a.dia)} mmHg</b></p><small>${e.m.map((m,i)=>`${i+1}: ${m.sys}/${m.dia}`).join(' · ')}</small></div>`;
+ }).join('')||'<p>Noch keine Blutdruckwerte erfasst.</p>';
+}
+el('bpInputs').innerHTML=[1,2,3].map(i=>`<div class="card"><b>Messung ${i}</b>${i===1?'<small> · nicht im Durchschnitt</small>':''}<div class="row"><div><label for="bps${i}">Systolisch (mmHg)</label><input id="bps${i}" type="number" inputmode="numeric" min="50" max="300" oninput="bpUpdatePreview()"></div><div><label for="bpd${i}">Diastolisch (mmHg)</label><input id="bpd${i}" type="number" inputmode="numeric" min="30" max="200" oninput="bpUpdatePreview()"></div></div></div>`).join('');
+renderBP();
+
 show('train');render();
 </script>
 <script type="module">
 const $=id=>document.getElementById(id);
 let auth=null,db=null,user=null,unsubs=[],firebase=null;
 const say=t=>{$('cloudMessage').textContent=t};
-const configKey='fitnessCoachFirebaseConfig';const localBeforeCloud={history:JSON.parse(localStorage.getItem('fitnessCoachHistory')||'[]'),daily:JSON.parse(localStorage.getItem('fitnessCoachDaily15')||'[]'),steps:JSON.parse(localStorage.getItem('fitnessCoachSteps')||'[]')};
+const configKey='fitnessCoachFirebaseConfig';const localBeforeCloud={history:JSON.parse(localStorage.getItem('fitnessCoachHistory')||'[]'),daily:JSON.parse(localStorage.getItem('fitnessCoachDaily15')||'[]'),steps:JSON.parse(localStorage.getItem('fitnessCoachSteps')||'[]'),bp:JSON.parse(localStorage.getItem('fitnessCoachBP')||'[]')};
 const cloudPath=(type)=>`users/${user.uid}/${type}`;
 function refreshViews(){
  if(typeof render==='function')render();
  if(typeof renderHistory==='function'&&current==='history')renderHistory();
  if(typeof dailyStats==='function')dailyStats();
  if(typeof renderSteps==='function')renderSteps();
+ if(typeof renderBP==='function')renderBP();
+ if(typeof renderWeek==='function'&&current==='week')renderWeek();
 }
 async function start(config){
  const [{initializeApp},{getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut},{getFirestore,collection,doc,setDoc,deleteDoc,getDocs,onSnapshot}]=await Promise.all([
@@ -195,13 +290,14 @@ async function start(config){
   unsubs.forEach(f=>f());unsubs=[];user=u;
   $('cloudStatus').textContent=u?'Angemeldet: '+u.email:'Nicht angemeldet (lokaler Modus)';
   if(!u)return;
-  for(const type of ['history','daily','steps']){
+  for(const type of ['history','daily','steps','bp']){
    const ref=collection(db,cloudPath(type));
    unsubs.push(onSnapshot(ref,snap=>{
     const entries=snap.docs.map(d=>d.data()).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
     if(type==='history'){history=entries;localStorage.setItem('fitnessCoachHistory',JSON.stringify(history))}
     else if(type==='daily'){dailyLog=entries;localStorage.setItem('fitnessCoachDaily15',JSON.stringify(dailyLog))}
-    else{stepLog=entries;localStorage.setItem('fitnessCoachSteps',JSON.stringify(stepLog))}
+    else if(type==='steps'){stepLog=entries;localStorage.setItem('fitnessCoachSteps',JSON.stringify(stepLog))}
+    else{bpLog=entries;localStorage.setItem('fitnessCoachBP',JSON.stringify(bpLog))}
     refreshViews();say('Cloud synchronisiert · '+new Date().toLocaleTimeString('de-DE'));
    },e=>say('Cloud-Lesefehler: '+e.message)));
   }
@@ -241,7 +337,8 @@ window.cloudImportLocal=async()=>{
   const oldH=localBeforeCloud.history;
   const oldD=localBeforeCloud.daily;
   const oldS=localBeforeCloud.steps;
-  await Promise.all([...oldH.map(e=>cloudSaveEntry('history',e)),...oldD.map(e=>cloudSaveEntry('daily',e)),...oldS.map(e=>cloudSaveEntry('steps',e))]);
+  const oldB=localBeforeCloud.bp;
+  await Promise.all([...oldH.map(e=>cloudSaveEntry('history',e)),...oldD.map(e=>cloudSaveEntry('daily',e)),...oldS.map(e=>cloudSaveEntry('steps',e)),...oldB.map(e=>cloudSaveEntry('bp',e))]);
   say('Lokale Einträge in die Cloud übertragen.');
  }catch(e){say('Import fehlgeschlagen: '+e.message)}
 };
